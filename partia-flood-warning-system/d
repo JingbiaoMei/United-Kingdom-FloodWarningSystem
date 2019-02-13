@@ -1,0 +1,91 @@
+[1mdiff --git a/Task2E.py b/Task2E.py[m
+[1mindex e69de29..6a0f278 100644[m
+[1m--- a/Task2E.py[m
+[1m+++ b/Task2E.py[m
+[36m@@ -0,0 +1,57 @@[m
+[32m+[m[32mimport datetime[m
+[32m+[m[32mfrom floodsystem.datafetcher import fetch_measure_levels[m
+[32m+[m[32mfrom floodsystem.stationdata import build_station_list, update_water_levels[m
+[32m+[m[32mfrom floodsystem.plot import plot_water_levels[m
+[32m+[m[32mfrom floodsystem.utils import sorted_by_key[m
+[32m+[m[32mimport numpy as np[m
+[32m+[m[32mdef run():[m
+[32m+[m[32m    # Build list of stations[m
+[32m+[m[32m    stations = build_station_list()[m
+[32m+[m
+[32m+[m[32m    # Update latest level data for all stations[m
+[32m+[m[32m    update_water_levels(stations)[m
+[32m+[m
+[32m+[m[32m    #Initiate empty list[m
+[32m+[m[32m    levellist = [][m
+[32m+[m
+[32m+[m[32m    #initiate temperory storage for water level data for error processing[m
+[32m+[m[32m    templevel = 0[m
+[32m+[m
+[32m+[m[32m    # iterate for all stations[m
+[32m+[m[32m    for station in stations:[m
+[32m+[m[32m        templevel = station.latest_level[m
+[32m+[m[32m        # Change NonType to zero for data analysis[m
+[32m+[m[32m        if templevel == None:[m
+[32m+[m[32m            templevel = 0[m
+[32m+[m[32m        # Change negative error data to zero[m
+[32m+[m[32m        if templevel < 0:[m
+[32m+[m[32m            templevel = 0[m[41m [m
+[32m+[m[32m        # append to a list[m
+[32m+[m[32m        levellist.append((station.name,templevel))[m
+[32m+[m[41m    [m
+[32m+[m[32m    # Sorted after iteration[m[41m    [m
+[32m+[m[32m    levellist = sorted_by_key(levellist,1)[m
+[32m+[m[32m    # get the greatest five station[m
+[32m+[m[32m    levellist = levellist[-5:][m
+[32m+[m[32m    # Get the name of the 5 stations (first entry of the tumple)[m
+[32m+[m[32m    stationname = [][m
+[32m+[m[32m    for llist in levellist:[m
+[32m+[m[32m        stationname.append(llist[0])[m
+[32m+[m[32m    print(stationname)[m
+[32m+[m
+[32m+[m[32m    for station_name in stationname:[m[41m    [m
+[32m+[m[32m        station_temp = None[m
+[32m+[m[32m        for station in stations:[m
+[32m+[m[32m            if station.name == station_name:[m
+[32m+[m[32m                station_temp = station[m
+[32m+[m[32m                break[m
+[32m+[m[32m        dt = 10[m
+[32m+[m[32m        dates, levels = fetch_measure_levels(station_temp.measure_id, dt=datetime.timedelta(days=dt))[m
+[32m+[m[32m        plot_water_levels(station_name, dates, levels)[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32mif __name__ == "__main__":[m
+[32m+[m[32m    print("*** Task 2A: CUED Part IA Flood Warning System ***")[m
+[32m+[m[32m    run()[m
+[1mdiff --git a/floodsystem/plot.py b/floodsystem/plot.py[m
+[1mindex e69de29..102a366 100644[m
+[1m--- a/floodsystem/plot.py[m
+[1m+++ b/floodsystem/plot.py[m
+[36m@@ -0,0 +1,23 @@[m
+[32m+[m[32mimport matplotlib.pyplot as plt[m
+[32m+[m[32mfrom datetime import datetime, timedelta[m
+[32m+[m[32mimport numpy as np[m
+[32m+[m
+[32m+[m[32mdef plot_water_levels(station, dates, levels):[m[41m [m
+[32m+[m[32m    # Plot[m
+[32m+[m[32m    plt.plot(dates, levels)[m
+[32m+[m[32m    level_max = max(levels)[m
+[32m+[m[32m    date_max =  dates[levels.index(level_max)][m
+[32m+[m[32m    level_min = min(levels)[m
+[32m+[m[32m    date_min =  dates[levels.index(level_min)][m
+[32m+[m[32m    plt.annotate("Max",(date_max, level_max))[m
+[32m+[m[32m    plt.annotate("Min",(date_min, level_min))[m
+[32m+[m[32m    # Add axis labels, rotate date labels and add plot title[m
+[32m+[m[32m    plt.xlabel('date')[m
+[32m+[m[32m    plt.ylabel('water level (m)')[m
+[32m+[m[32m    plt.xticks(rotation=45);[m
+[32m+[m[32m    plt.title(station)[m
+[32m+[m
+[32m+[m[32m    # Display plot[m
+[32m+[m[32m    plt.tight_layout()  # This makes sure plot does not cut off date labels[m
+[32m+[m
+[32m+[m[32m    plt.show()[m
+\ No newline at end of file[m
