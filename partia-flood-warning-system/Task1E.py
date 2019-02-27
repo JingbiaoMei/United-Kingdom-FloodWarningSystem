@@ -6,7 +6,7 @@ def run():
     #Test sample of some station
     stations = build_station_list()
     # Running the function to get a list called result
-    result = rivers_by_station_number(stations, 9)
+    result = rivers_by_station_number(stations,6)
     # Printing the result
     print(result)
 

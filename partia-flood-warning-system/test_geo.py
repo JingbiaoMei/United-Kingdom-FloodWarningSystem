@@ -113,11 +113,11 @@ def test_station_within_radius():
     result4 = floodsystem.geo.stations_within_radius(stations, (52.198962, 0.119877), 100)
     result5 = floodsystem.geo.stations_within_radius(stations, (52.198962, 0.119877), 500)
 
-    #assert result1 == [s0]
-    #assert result2 == [s0,s1]
-    #assert result3 == [s0,s1,s2]
-    #assert result4 == [s0,s1,s2,s3]
-    #assert result5 == [s0,s1,s2,s3,s4]
+    assert result1 == [s0.name]
+    assert result2 == [s0.name,s1.name]
+    assert result3 == [s0.name,s1.name,s2.name]
+    assert result4 == [s0.name,s1.name,s2.name,s3.name]
+    assert result5 == [s0.name,s1.name,s2.name,s3.name,s4.name]
 
 
 
@@ -234,11 +234,13 @@ def test_rivers_by_station_number():
     result4 = floodsystem.geo.rivers_by_station_number(stations, 4)
     result5 = floodsystem.geo.rivers_by_station_number(stations, 5)
 
-    #assert result1 == [('River B', 3)]
-    #assert result2 == [('River B', 3), ('River D', 3), ('River A', 2)]
-    #assert result3 == [('River B', 3), ('River D', 3), ('River A', 2), ('River E', 1)]
-    #assert result4 == [('River B', 3), ('River D', 3), ('River A', 2), ('River E', 1)]
-    #assert result5 == [('River B', 3), ('River D', 3), ('River A', 2), ('River E', 1)]
+
+
+    assert result1 == [('River B', 3),('River D', 3)]
+    assert result2 == [('River B', 3), ('River D', 3)]
+    assert result3 == [('River B', 3), ('River D', 3), ('River A', 2)]
+    assert result4 == [('River B', 3), ('River D', 3), ('River A', 2), ('River E', 1)]
+    assert result5 == [('River B', 3), ('River D', 3), ('River A', 2), ('River E', 1)]
 
 
 

@@ -106,20 +106,23 @@ def rivers_by_station_number(stations, N):
 # Loop to append the N- largest rivers in the return list
 
     num = 0
-    i = 1
-    slist.append(sorted_list[0])
+    i = 0
 
-    while num < N and i < len(sorted_list):
-        
-        val = sorted_list[i][1]
-        
-
-        if val == val_max:
+    while num <= N and i< len(sorted_list):
+        if N-num != 0:
             slist.append(sorted_list[i])
-            break
+            i += 1
+            num +=1
+        else:
+            if slist[-1][1] == sorted_list[i][1]:
+                slist.append(sorted_list[i])
+                i += 1
 
-        slist.append(sorted_list[i])
-        num +=1    
-        i=i+1
+            else:
+                break
+
+
+
+
     return slist
 

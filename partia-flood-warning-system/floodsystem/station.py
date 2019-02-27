@@ -63,4 +63,28 @@ class MonitoringStation:
 
         slist.sort()    # Sorting the list in alphabetical order
 
+
+
         return slist
+
+    def relative_water_level(self):
+        """
+            returns the latest water level as a fraction of the typical range
+
+        """
+
+        currLevel= self.latest_level
+
+        bool = self.typical_range_consistent()
+
+        if bool == True:
+            typical_high = self.typical_range[1]
+            typical_low = self.typical_range[0]
+
+        if currLevel is None or bool == False:
+            return None
+
+        else:
+            result = ((currLevel-typical_low)/(typical_high-typical_low))
+
+        return result
